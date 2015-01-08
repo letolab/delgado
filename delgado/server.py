@@ -48,16 +48,10 @@ class Engine(object):
                 pass
 
     def make_connection(self):
-        s = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-        try:
-            os.remove(self.socket_location)
-        except OSError:
-            pass
-        s.bind(self.socket_location)
-        s.listen(1)
-        conn, addr = s.accept()
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.bind(("0.0.0.0", 2003))
         logger.debug('connection ready and listenting')
-        return conn
+        return s
 
     def run(self):
         conn = self.connection()
